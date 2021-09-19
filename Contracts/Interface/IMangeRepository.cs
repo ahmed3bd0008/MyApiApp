@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 namespace Contracts.Interface
 {
     public interface IMangeRepository
@@ -5,5 +6,6 @@ namespace Contracts.Interface
         public IComponyRepository componyRepository { get;  }
         public IEmployeeRepository employeeRepository{get;}
         void Save();
+        Task<int>saveAsync();
     }
 }

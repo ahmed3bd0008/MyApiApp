@@ -5,9 +5,10 @@ using Microsoft.Extensions.Logging;
 using Entity.DataTransferObject;
 using AutoMapper;
 using System.Collections.Generic;
-using System.Collections;
+using System.Threading.Tasks;
 using System;
 using Entity.Model;
+using dokumen.pub_ultimate_aspnet_core_3_web_api.ModelBinder;
 
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
 {
@@ -195,5 +196,16 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
             _mangeRepository.Save();
             return Ok(updateCompanyDto);
         }
+        [HttpGet("GetAllCompanyAsync")]
+        public async Task<IActionResult>GetAllCompanyAsync()
+        {
+            var company=await _mangeRepository.componyRepository.GetCompaniesByIdsasync(false);
+            var companyDto=_mapper.Map<List<CompanyDto>>(company);
+            return Ok(companyDto);
+        }
+        [HttpGet("collection/({ids})", Name = "CompanyCollection")] 
+       public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinding))]IEnumerable<Guid> ids) {
+            return Ok();
     } 
+}
 }

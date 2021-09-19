@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Contracts.Interface;
 using Entity.Context;
 namespace Repository.Implementation
@@ -32,6 +33,11 @@ namespace Repository.Implementation
                         public void Save()
                         {
                                     _repoDbContext.SaveChanges();
+                        }
+
+                        public async Task<int> saveAsync()
+                        {
+                                   return await _repoDbContext.SaveChangesAsync();
                         }
             }
 }

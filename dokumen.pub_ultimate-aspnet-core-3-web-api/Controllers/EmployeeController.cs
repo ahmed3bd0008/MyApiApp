@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Contracts.Interface;
 using Entity.Model;
 using LoggerService;

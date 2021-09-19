@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Contracts.Interface;
 using Entity.Context;
 using Entity.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Implementation
 {
@@ -31,6 +34,20 @@ namespace Repository.Implementation
             }
         }
 
+        public async Task<Company> GetCompanyAsync(Guid COmpanyId, bool asTracking)
+        {
+                  return await FindByCondation(Opt=>Opt.Id.Equals(COmpanyId),false).SingleOrDefaultAsync();
+        }
+
       
-    }
+        public async Task<IEnumerable<Company>> GetCompaniesByIdsasync(bool asTracking)
+        {
+                    return  await FindAll(false).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Company>> GetCompaniesByIdsasync(Expression<Func<Company,bool>> expression,bool astraking)
+        {
+                    return await FindByCondation(expression,astraking).ToListAsync();
+        }
+            }
 }
