@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.ModelBinder
 {
-public class ArrayModelBinding : IModelBinder
+public class ArrayModelBinder : IModelBinder
 {
             public Task BindModelAsync(ModelBindingContext bindingContext)
             {
@@ -17,7 +17,7 @@ public class ArrayModelBinding : IModelBinder
                       }
                       var ModelProvider=bindingContext.ValueProvider.GetValue(bindingContext.ModelName).ToString();
                         var values = bindingContext.ValueProvider.GetValue("Value");
-            if (string.IsNullOrEmpty(ModelProvider))
+                     if (string.IsNullOrEmpty(ModelProvider))
                       {
                           bindingContext.Result=ModelBindingResult.Success(null);
                           return Task.CompletedTask;
@@ -32,8 +32,8 @@ public class ArrayModelBinding : IModelBinder
                         var providedValue = bindingContext.ValueProvider .GetValue(bindingContext.ModelName) .ToString();
                         var genericType = bindingContext.ModelType.GetTypeInfo().GenericTypeArguments[0];
                         var converter = TypeDescriptor.GetConverter(genericType);
-                        var objectArray = providedValue.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries) ;
-                        var xx= objectArray.Select(x => converter.ConvertToString(x.Trim())).ToArray();
+                        var objectArray = providedValue.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries) ;
+                        var xx= objectArray.Select(x => converter.ConvertFromString(x.Trim())).ToArray();
                         var GuidArray=Array.CreateInstance(genericType,xx.Length);
                         xx.CopyTo(GuidArray,0);
                         bindingContext.Model=GuidArray;

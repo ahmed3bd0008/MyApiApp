@@ -12,9 +12,11 @@ namespace Repository.Implementation
 {
     public class CompanyRepository:GenericRepository<Company>,IComponyRepository
     {
+      private readonly RepoDbContext _Context;
+
         public CompanyRepository(RepoDbContext Context):base(Context)
         {
-                            
+                  _Context=Context;          
         }
 
         public IEnumerable<Company> GetCompaniesByIds(IEnumerable<Guid> COmpanyId, bool asTracking)
@@ -49,5 +51,10 @@ namespace Repository.Implementation
         {
                     return await FindByCondation(expression,astraking).ToListAsync();
         }
+
+       public async Task AddCompanyAsync(Company Companies)
+       {
+                 await  _Context.Companies.AddAsync(Companies);
+       }
             }
 }

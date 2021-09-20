@@ -55,7 +55,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.ExtensionFilter
                 context.Result = new InternalServerErrorObjectResult(json);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
-            context.ExceptionHandled = true;
+            context.ExceptionHandled = false;
         }
 
         private class JsonErrorResponse

@@ -20,6 +20,11 @@ namespace Repository.Implementation
                                 Create(Employee);
                         }
 
+                        public void CreateEmployeeAsync(Guid CompanyId, Employee Employee)
+                        {
+                                    throw new NotImplementedException();
+                        }
+
                         public Employee GetEmployee(Guid EmployeeId, bool asTracking)
                         {
                                  return FindByCondation(d=>d.Id.Equals(EmployeeId),asTracking).SingleOrDefault();

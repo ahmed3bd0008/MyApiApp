@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace Entity.DataTransferObject
 {
     public class CompanyDto
@@ -9,6 +11,7 @@ namespace Entity.DataTransferObject
     }
      public class AddCompanyDto
     {
+           [Required (ErrorMessage ="Company name Is required")]
                 public string Name { get; set; }
                 public string Address { get; set; }
                 public string Country { get; set; }

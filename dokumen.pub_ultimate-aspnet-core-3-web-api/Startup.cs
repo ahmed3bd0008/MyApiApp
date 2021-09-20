@@ -6,6 +6,7 @@ using LoggerService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,14 +29,23 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+         //AddXmlDataContractSerializerFormatters by default Respnse Be With Json To accepot Respnse Wit Text/Xml
+         //ReturnHttpNotAcceptable to accept header With unsprort to Server  Return Respons Error 406
+           services.AddControllers(config =>
+           { 
+                config.RespectBrowserAcceptHeader = true; 
+                config.ReturnHttpNotAcceptable = true; 
+                config.Filters.Add(typeof(HttpGlobalExceptionFilter));
+           }).AddNewtonsoftJson() .AddXmlDataContractSerializerFormatters() ;
 
-            services.AddControllers();
+           // services.AddControllers();
             services.ConfigurationSqlServer(Configuration);
             services.ConfigurationRepositoryServer();
-            services.AddControllers(options =>
-             {
-                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-             }).AddNewtonsoftJson();
+           //make Ivalue Model status Error From 400 That Represent BadRequest To 422 that represent Model Status Invaild
+            services.Configure<ApiBehaviorOptions>
+            (
+                Option=>Option.SuppressModelStateInvalidFilter=true
+            );
             services.AddScoped<ILoggerManger, LoggerManager>();
             services.AddAutoMapper(typeof( Startup));
             services.AddSwaggerGen(c =>
@@ -56,6 +66,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
             app.GlobelException(logger);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+           // app.UseForwardedHeaders() will forward proxy headers to the current request. This will help us during application deployment
             app.UseForwardedHeaders(new ForwardedHeadersOptions(){
                 ForwardedHeaders=ForwardedHeaders.All
             });

@@ -12,6 +12,7 @@ namespace Contracts.Interface
         public IEnumerable<Company>GetCompaniesByIds(IEnumerable< System.Guid> COmpanyId,bool asTracking);
 
         public void AddCompany(IEnumerable<Company> Companies);
+        public Task AddCompanyAsync(Company Companies);
          public Task< Company >GetCompanyAsync(System.Guid COmpanyId,bool asTracking);
         public Task< IEnumerable<Company>>GetCompaniesByIdsasync(Expression<Func<Company,bool>>expression,bool astraking);
         public Task< IEnumerable<Company>>GetCompaniesByIdsasync(bool asTracking);

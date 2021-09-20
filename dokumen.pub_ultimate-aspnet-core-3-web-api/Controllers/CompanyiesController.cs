@@ -84,12 +84,17 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
 
            }
            [HttpPost("CreateCompany")]
-           public IActionResult CreateCompany([FromBody]AddCompanyDto addCompanyDto)
+           public IActionResult CreateCompany(AddCompanyDto addCompanyDto)
            {
               if(addCompanyDto ==null)
               {
                  _logger.LogError("Thier is an error with company");
                  return NotFound();
+              }
+              if (!ModelState.IsValid)
+              {
+                  _logger.LogError("It is Ivaild Object");
+                  return UnprocessableEntity(ModelState);
               }
               var company=_mapper.Map<Company>(addCompanyDto);
               _mangeRepository.componyRepository.Create(company);
@@ -204,8 +209,43 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
             return Ok(companyDto);
         }
         [HttpGet("collection/({ids})", Name = "CompanyCollection")] 
-       public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinding))]IEnumerable<Guid> ids) {
+       public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids) {
             return Ok();
     } 
+    [HttpGet("GetCompanyByIdAsync")]
+    public async Task<IActionResult>GetCompanyByIdAsync(Guid CompanyId)
+    {
+        var Company =await _mangeRepository.componyRepository.GetCompanyAsync(CompanyId,false);
+        if(Company==null)
+        {
+            _logger.LogError($"thier is now Comapany has Id {CompanyId} ");
+            NotFound();
+        }
+        var CompanyDto=_mapper.Map<CompanyDto>(Company);
+        return Ok(CompanyDto);
+    }
+    [HttpPost("CreateCopanyAsync")]
+    public async Task<IActionResult>CreateCopanyAsync(AddCompanyDto addCompanyDto)
+    {
+        if(addCompanyDto==null)
+        {
+            _logger.LogError("the addCompany Is Empty");
+            return NotFound();
+        }
+        if(!ModelState.IsValid)
+        {
+            _logger.LogError("Model is InVaild");
+            return UnprocessableEntity(ModelState);
+        }
+        var Company=_mapper.Map<Company>(addCompanyDto);
+        await  _mangeRepository.componyRepository.AddCompanyAsync(Company);
+        var res= await _mangeRepository.saveAsync();
+        if (res<1)
+        {
+            _logger.LogError("Model is InVaild");
+            return UnprocessableEntity(ModelState);
+        }
+        return Ok(res);
+    }
 }
 }

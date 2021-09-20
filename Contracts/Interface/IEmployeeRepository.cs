@@ -9,5 +9,6 @@ namespace Contracts.Interface
             public IEnumerable<Employee> GetEmployeesByCompany(Guid CompanyeId, bool asTracking);
             public Employee GetEmployeeByCompany(Guid CompanyId,Guid EmployeeId, bool asTracking);
             public void CreateEmployee(Guid CompanyId,Employee Employee);
+            public void CreateEmployeeAsync(Guid CompanyId,Employee Employee);
     }
 }
