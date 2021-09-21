@@ -13,7 +13,8 @@ namespace Entity.DataTransferObject
     {
            [Required (ErrorMessage ="Company name Is required")]
                 public string Name { get; set; }
-                public string Address { get; set; }
+          [Required(ErrorMessage = "Company address Is required")]
+        public string Address { get; set; }
                 public string Country { get; set; }
     }
      public class AddCompanywithEmployeesDto

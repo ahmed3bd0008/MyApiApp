@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter;
 using Microsoft.OpenApi.Models;
 using NLog;
 
@@ -21,10 +21,13 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
         public Startup(IConfiguration configuration)
         {
             LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+         
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+                       
+
+                        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -35,9 +38,10 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
            { 
                 config.RespectBrowserAcceptHeader = true; 
                 config.ReturnHttpNotAcceptable = true; 
+                //globel scope Iaction Result
+                //config.Filters.Add(new ValidationFilterAttribute(_logger));
                 config.Filters.Add(typeof(HttpGlobalExceptionFilter));
            }).AddNewtonsoftJson() .AddXmlDataContractSerializerFormatters() ;
-
            // services.AddControllers();
             services.ConfigurationSqlServer(Configuration);
             services.ConfigurationRepositoryServer();
@@ -52,6 +56,9 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "dokumen.pub_ultimate_aspnet_core_3_web_api", Version = "v1" });
             });
+            // add Action Filter Scope Of Cotroller Or Action
+           services.AddScoped<ValidationFilterAttribute>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

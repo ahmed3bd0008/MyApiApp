@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System;
 using Entity.Model;
 using dokumen.pub_ultimate_aspnet_core_3_web_api.ModelBinder;
+using dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter;
 
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
 {
@@ -224,19 +225,11 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
         var CompanyDto=_mapper.Map<CompanyDto>(Company);
         return Ok(CompanyDto);
     }
-    [HttpPost("CreateCopanyAsync")]
+    [HttpPost("CreateCompanyAsync")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult>CreateCopanyAsync(AddCompanyDto addCompanyDto)
     {
-        if(addCompanyDto==null)
-        {
-            _logger.LogError("the addCompany Is Empty");
-            return NotFound();
-        }
-        if(!ModelState.IsValid)
-        {
-            _logger.LogError("Model is InVaild");
-            return UnprocessableEntity(ModelState);
-        }
+       
         var Company=_mapper.Map<Company>(addCompanyDto);
         await  _mangeRepository.componyRepository.AddCompanyAsync(Company);
         var res= await _mangeRepository.saveAsync();
