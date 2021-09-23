@@ -58,6 +58,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
             });
             // add Action Filter Scope Of Cotroller Or Action
            services.AddScoped<ValidationFilterAttribute>();
+           services.AddScoped<UpdateCompanyFilterAttribute>();
 
         }
 

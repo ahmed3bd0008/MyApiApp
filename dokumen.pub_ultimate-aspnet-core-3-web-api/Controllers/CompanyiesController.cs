@@ -240,5 +240,17 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
         }
         return Ok(res);
     }
+    [HttpPut("UpdateCompanyWithActionFilter/{CompanyId}")]
+    [ServiceFilter(typeof(UpdateCompanyFilterAttribute))]
+        public IActionResult UpdateCompanyWithActionFilter(Guid CompanyId,UpdateCompanyDto updateCompanyDto)
+        {
+          
+            var Company = HttpContext.Items["Company"] as Company;
+            
+
+              _mapper.Map(updateCompanyDto, Company);
+            _mangeRepository.Save();
+            return Ok(Company);
+        }
 }
 }

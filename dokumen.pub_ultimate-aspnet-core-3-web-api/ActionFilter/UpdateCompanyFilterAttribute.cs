@@ -1,6 +1,8 @@
 using Contracts.Interface;
 using LoggerService;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using System.Linq;
 
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter
@@ -23,13 +25,20 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter
 
         public void OnActionExecuting(ActionExecutingContext context) 
         {
-            var 
-            var action = context.RouteData.Values["action"];
-            var controller = context.RouteData.Values["controller"];
-            var param = context.ActionArguments.SingleOrDefault(x => x.Value.ToString().Contains("Dto")).Value;
-            if (param == null) 
-            { _logger.LogError($"Object sent from client is null. Controller: {controller}, action: {action}"); context.Result = new BadRequestObjectResult($"Object is null. Controller: {controller}, action: {action}"); return; } if (!context.ModelState.IsValid) { _logger.LogError($"Invalid model state for the object. Controller: {controller}, action: {action}"); context.Result = new UnprocessableEntityObjectResult(context.ModelState); } }
-
-       
+            bool IsUpdate = false;
+            IsUpdate = context.HttpContext.Request.Method.Equals("PUT");
+            var action=context.RouteData.Values["action"].ToString();
+            var controller=context.RouteData.Values["controller"].ToString();
+            var CompanyId=(Guid) context.ActionArguments["CompanyId"];
+            var Company=_mangeRepository.componyRepository.GetCompany(CompanyId, IsUpdate);
+            if(Company==null)
+            {
+                _loggerManger.LogError($"thier is No Company With Id {CompanyId}");
+                context.ModelState.AddModelError(string.Empty,$"thier is No Company With Id {CompanyId}");
+                context.Result=new BadRequestObjectResult($"Object is null In Action{action} Controller {controller}");
+                                return;
             }
+            context.HttpContext.Items.Add("Company",Company);
+            }
+}
 }
