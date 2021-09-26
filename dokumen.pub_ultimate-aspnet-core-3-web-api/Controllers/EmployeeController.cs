@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Contracts.Interface;
 using Entity.Model;
 using LoggerService;
@@ -7,6 +6,9 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using Entity.DataTransferObject;
+using Entity.Paging;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
 {
@@ -129,6 +131,39 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
                     _mangeRepository.Save();
                     return Ok();
                 }
+                [HttpGet("Company/{CompanyId}/GetEmployeePaging")]
+                public async Task< IActionResult> GetEmployeePaging(Guid CompanyId,[FromQuery] EmployeePrameter employeePrameter)
+                {
+
+                    var Employees=await _mangeRepository.employeeRepository.GetEmployeesByCompany(CompanyId,employeePrameter,false);
+                             var employeeDto=_mapper.Map<IEnumerable< EmployeeDto>>(Employees);
+                             return Ok( employeeDto);
+                }
+                  [HttpGet("Company/{CompanyId}/GetEmployeePaging2")]
+                public async Task< IActionResult> GetEmployeePaging2(Guid CompanyId,[FromQuery] EmployeePrameter employeePrameter)
+                {
+
+                    var Employees=await _mangeRepository.employeeRepository.GetEmployeesByCompanyPaging(CompanyId,employeePrameter,false);
+                    Response.Headers.Add("Ex-Pagnation",JsonConvert.SerializeObject(Employees.metaData));
+                    Console.WriteLine(JsonConvert.SerializeObject(Employees.metaData));
+                             var employeeDto=_mapper.Map<IEnumerable< EmployeeDto>>(Employees);
+                             return Ok( employeeDto);
+                }
+                  [HttpGet("Company/{CompanyId}/GetEmployeeFilter")]
+
+                public async Task< IActionResult> GetEmployeeFilter(Guid CompanyId,[FromQuery] EmployeePrameter employeePrameter)
+                {
+                    if(employeePrameter.IsIvalidAge)
+                    {
+                        return BadRequest("min Age Cant be more than Max age");
+                    }
+                    var Employees=await _mangeRepository.employeeRepository.GetEmployeesByCompanyFilter(CompanyId,employeePrameter,false);
+                    Response.Headers.Add("Ex-Pagnation",JsonConvert.SerializeObject(Employees.metaData));
+                    Console.WriteLine(JsonConvert.SerializeObject(Employees.metaData));
+                             var employeeDto=_mapper.Map<IEnumerable< EmployeeDto>>(Employees);
+                             return Ok( employeeDto);
+                }
+
         
     }
 }

@@ -4,7 +4,9 @@ using Contracts.Interface;
 using Entity.Context;
 using Entity.Model;
 using System.Collections.Generic;
-
+using Entity.Paging;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 namespace Repository.Implementation
 {
     public class EmployeeRepository:GenericRepository<Employee>,IEmployeeRepository
@@ -39,5 +41,35 @@ namespace Repository.Implementation
                         {
                                  return FindByCondation(d=>d.CompanyId.Equals(CompanyId),asTracking);
                         }
-            }
+
+                        public async Task <IEnumerable<Employee>> GetEmployeesByCompany(Guid CompanyeId, EmployeePrameter employeePrameter, bool asTracking)
+                        {
+                               return await    FindByCondation(d=>d.CompanyId.Equals(CompanyeId),asTracking).
+                                    OrderBy(e=>e.Name).
+                                    Skip((employeePrameter.PageNumber-1)*10).
+                                    Take(employeePrameter.PageSize).
+                                    ToListAsync();
+                        }
+
+                        public async Task<PageList<Employee>> GetEmployeesByCompanyFilter(Guid CompanyeId, EmployeePrameter employeePrameter, bool asTracking)
+                        {
+                                   var Employee=await FindByCondation(d=>d.CompanyId.Equals(CompanyeId),asTracking).
+                                   Where(d=>d.Age>=employeePrameter.MinAge &&d.Age<employeePrameter.MaxAge &&
+                                                     (employeePrameter.Name==null||d.Name.Contains(employeePrameter.Name))).
+                                                     ToListAsync();
+                                return PageList<Employee>.
+                                ToPageList(Employee,employeePrameter.PageSize,employeePrameter.PageNumber);
+                        }
+                        public async Task<PageList<Employee>> GetEmployeesByCompanyPaging(Guid CompanyeId, EmployeePrameter employeePrameter, bool asTracking)
+                        { 
+                                var Employee= await FindByCondation(d=>d.CompanyId.Equals(CompanyeId),asTracking).
+                                OrderBy(d=>d.Name).
+                                ToListAsync();
+                            
+                                
+                                return PageList<Employee>.
+                                ToPageList(Employee,employeePrameter.PageSize,employeePrameter.PageNumber);
+                                
+                        }
+    } 
 }

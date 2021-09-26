@@ -3,8 +3,6 @@ using LoggerService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
-using System.Linq;
-
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter
 {
             public class UpdateCompanyFilterAttribute : IActionFilter
