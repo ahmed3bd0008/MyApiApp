@@ -13,10 +13,15 @@ namespace Entity.Paging
                          _PageSize = (value>MaxPageSize)?MaxPageSize:value; 
              }
         }
-         
+        public string OrderString { get; set; }
+
     }
     public class EmployeePrameter:RequestPrameter
     {
+        public EmployeePrameter()
+        {
+            OrderString = "Name";
+        }
         public string  Name { get; set; }
         public int MinAge { get; set; }=int.MinValue;
         public int MaxAge { get; set; }=int.MaxValue;

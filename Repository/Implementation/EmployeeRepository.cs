@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Entity.Paging;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Repository.Extension;
 namespace Repository.Implementation
 {
     public class EmployeeRepository:GenericRepository<Employee>,IEmployeeRepository
@@ -55,7 +56,8 @@ namespace Repository.Implementation
                         {
                                    var Employee=await FindByCondation(d=>d.CompanyId.Equals(CompanyeId),asTracking).
                                    Where(d=>d.Age>=employeePrameter.MinAge &&d.Age<employeePrameter.MaxAge &&
-                                                     (employeePrameter.Name==null||d.Name.Contains(employeePrameter.Name))).
+                                                     (employeePrameter.Name==null||d.Name.ToLower().Contains(employeePrameter.Name.ToLower()))).
+                                                     Sort(employeePrameter.OrderString).
                                                      ToListAsync();
                                 return PageList<Employee>.
                                 ToPageList(Employee,employeePrameter.PageSize,employeePrameter.PageNumber);
@@ -65,8 +67,6 @@ namespace Repository.Implementation
                                 var Employee= await FindByCondation(d=>d.CompanyId.Equals(CompanyeId),asTracking).
                                 OrderBy(d=>d.Name).
                                 ToListAsync();
-                            
-                                
                                 return PageList<Employee>.
                                 ToPageList(Employee,employeePrameter.PageSize,employeePrameter.PageNumber);
                                 
