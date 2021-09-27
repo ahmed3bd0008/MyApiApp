@@ -36,4 +36,11 @@ namespace Entity.Paging
         }
 
     }
+    public class CompanyPrameter : RequestPrameter
+    {
+        public CompanyPrameter()
+        {
+            OrderString = "Name";
+        }
+    }
 }

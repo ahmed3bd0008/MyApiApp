@@ -6,10 +6,10 @@ namespace Entity.Paging
 {
     public class PageList<T>:List<T>
     {
-                public MetaData metaData { get; set; }
+                public MetaData MetaData { get; set; }
                 public PageList(List<T>Item, int pageSize,int PageNumber,int Account)
                 {
-                    metaData=new MetaData()
+                    MetaData=new MetaData()
                     {          
                                 Account=Account,
                                 TotalPages=(int)Math.Ceiling(Account/(double)pageSize),

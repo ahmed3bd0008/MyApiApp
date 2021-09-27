@@ -10,6 +10,8 @@ using System;
 using Entity.Model;
 using dokumen.pub_ultimate_aspnet_core_3_web_api.ModelBinder;
 using dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter;
+using Entity.Paging;
+using Newtonsoft.Json;
 
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
 {
@@ -252,5 +254,13 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
             _mangeRepository.Save();
             return Ok(Company);
         }
-}
+    [HttpGet("GetAllorderbyCompanyAsync")]
+        public async Task<IActionResult> GetAllCompanyFilterAsync([FromQuery]CompanyPrameter companyPrameter)
+        {
+            var company = await _mangeRepository.componyRepository.GetCompaniesAsync(companyPrameter,false);
+            Response.Headers.Add("ExpageCompany", $"{JsonConvert.SerializeObject(company.MetaData)}");
+            var companyDto = _mapper.Map<List<CompanyDto>>(company);
+            return Ok(companyDto);
+        }
+    }
 }

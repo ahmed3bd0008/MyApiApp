@@ -23,7 +23,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter
 
         public void OnActionExecuting(ActionExecutingContext context) 
         {
-            bool IsUpdate = false;
+            bool IsUpdate;
             IsUpdate = context.HttpContext.Request.Method.Equals("PUT");
             var action=context.RouteData.Values["action"].ToString();
             var controller=context.RouteData.Values["controller"].ToString();

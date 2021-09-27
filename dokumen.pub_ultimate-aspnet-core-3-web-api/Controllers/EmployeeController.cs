@@ -144,8 +144,8 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
                 {
 
                     var Employees=await _mangeRepository.employeeRepository.GetEmployeesByCompanyPaging(CompanyId,employeePrameter,false);
-                    Response.Headers.Add("Ex-Pagnation",JsonConvert.SerializeObject(Employees.metaData));
-                    Console.WriteLine(JsonConvert.SerializeObject(Employees.metaData));
+                    Response.Headers.Add("Ex-Pagnation",JsonConvert.SerializeObject(Employees.MetaData));
+                    Console.WriteLine(JsonConvert.SerializeObject(Employees.MetaData));
                              var employeeDto=_mapper.Map<IEnumerable< EmployeeDto>>(Employees);
                              return Ok( employeeDto);
                 }
@@ -158,8 +158,8 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
                         return BadRequest("min Age Cant be more than Max age");
                     }
                     var Employees=await _mangeRepository.employeeRepository.GetEmployeesByCompanyFilter(CompanyId,employeePrameter,false);
-                    Response.Headers.Add("Ex-Pagnation",JsonConvert.SerializeObject(Employees.metaData));
-                    Console.WriteLine(JsonConvert.SerializeObject(Employees.metaData));
+                    Response.Headers.Add("Ex-Pagnation",JsonConvert.SerializeObject(Employees.MetaData));
+                    Console.WriteLine(JsonConvert.SerializeObject(Employees.MetaData));
                              var employeeDto=_mapper.Map<IEnumerable< EmployeeDto>>(Employees);
                              return Ok( employeeDto);
                 }
