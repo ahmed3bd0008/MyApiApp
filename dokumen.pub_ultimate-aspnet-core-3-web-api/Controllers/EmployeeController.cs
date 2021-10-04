@@ -18,12 +18,17 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
     {
          private readonly ILoggerManger _logger;
          private readonly IMapper _mapper;
-         private readonly IMangeRepository _mangeRepository;
-                        public EmployeeController( ILoggerManger loggerManger,IMangeRepository mangeRepository,IMapper mapper)
+                        private readonly IShapData<EmployeeDto> _shapData;
+                        private readonly IMangeRepository _mangeRepository;
+                        public EmployeeController( ILoggerManger loggerManger,
+                        IMangeRepository mangeRepository,
+                        IMapper mapper,
+                        IShapData<EmployeeDto>shapData)
                         {
                             _logger = loggerManger;
                             _mangeRepository=mangeRepository;
                             _mapper=mapper;
+                            _shapData=shapData;
                         }
                         [HttpGet("Company/{CompanyId}/Employees")]
                         public IActionResult GetEmployeesFroCompany(Guid CompanyId )
@@ -162,6 +167,21 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
                     Console.WriteLine(JsonConvert.SerializeObject(Employees.MetaData));
                              var employeeDto=_mapper.Map<IEnumerable< EmployeeDto>>(Employees);
                              return Ok( employeeDto);
+                }
+                 [HttpGet("Company/{CompanyId}/GetEmployeeChapping")]
+
+                public async Task< IActionResult> GetEmployeeShaping(Guid CompanyId,[FromQuery] EmployeePrameter employeePrameter)
+                {
+                    if(employeePrameter.IsIvalidAge)
+                    {
+                        return BadRequest("min Age Cant be more than Max age");
+                    }
+                    var Employees=await _mangeRepository.employeeRepository.GetEmployeesByCompanyFilter(CompanyId,employeePrameter,false);
+                    Response.Headers.Add("Ex-Pagnation",JsonConvert.SerializeObject(Employees.MetaData));
+                    Console.WriteLine(JsonConvert.SerializeObject(Employees.MetaData));
+                                var employeeDto=_mapper.Map<IEnumerable< EmployeeDto>>(Employees);
+            var xx = _shapData.shapData(employeeDto, employeePrameter.Fields);
+                             return Ok( _shapData.shapData(employeeDto,employeePrameter.Fields));
                 }
 
         

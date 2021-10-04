@@ -18,5 +18,6 @@ namespace Contracts.Interface
         public Task< IEnumerable<Company>>GetCompaniesByIdsasync(Expression<Func<Company,bool>>expression,bool astraking);
         public Task< IEnumerable<Company>>GetCompaniesByIdsasync(bool asTracking);
         public Task<PageList<Company>> GetCompaniesAsync(CompanyPrameter companyPrameter, bool astraking);
+        
     }
 }

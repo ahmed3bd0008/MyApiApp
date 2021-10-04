@@ -50,6 +50,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
             (
                 Option=>Option.SuppressModelStateInvalidFilter=true
             );
+            services.configurationIdentityService();
             services.AddScoped<ILoggerManger, LoggerManager>();
             services.AddAutoMapper(typeof( Startup));
             services.AddSwaggerGen(c =>
@@ -79,7 +80,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
                 ForwardedHeaders=ForwardedHeaders.All
             });
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

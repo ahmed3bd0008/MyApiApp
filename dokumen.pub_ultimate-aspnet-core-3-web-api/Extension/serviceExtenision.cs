@@ -4,7 +4,9 @@ using Entity.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Repository.Implementation; 
+using Repository.Implementation;
+using Repository.Shaping;
+
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Extension
 {
     public static class serviceExtension
@@ -19,6 +21,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Extension
                 services.AddScoped(typeof(IEmployeeRepository),typeof(EmployeeRepository));
                 services.AddScoped(typeof(IComponyRepository),typeof(CompanyRepository));
                 services.AddScoped(typeof(IMangeRepository),typeof(MangeRepository));
+                services.AddScoped(typeof(IShapData<>),typeof(ShapData<>));
              }
     }
 }

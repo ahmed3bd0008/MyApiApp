@@ -25,6 +25,7 @@ namespace Entity.Paging
         public string  Name { get; set; }
         public int MinAge { get; set; }=int.MinValue;
         public int MaxAge { get; set; }=int.MaxValue;
+        public string Fields { get; set; }
         public bool IsIvalidAge
         { 
             get

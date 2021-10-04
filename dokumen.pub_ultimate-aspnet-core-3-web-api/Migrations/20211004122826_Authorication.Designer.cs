@@ -4,14 +4,16 @@ using Entity.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Migrations
 {
     [DbContext(typeof(RepoDbContext))]
-    partial class RepoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211004122826_Authorication")]
+    partial class Authorication
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,24 +49,6 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "c93bcb1e-eaa6-4802-ae07-0d54d7c68594",
-                            ConcurrencyStamp = "173b9bc8-d5ba-4fcb-8b40-b7b9c648b99e",
-                            ImportantDegree = 1,
-                            Name = "Manger",
-                            NormalizedName = "MANGER"
-                        },
-                        new
-                        {
-                            Id = "12751ba4-c829-4d7f-885e-ae28c2b50a4e",
-                            ConcurrencyStamp = "850d3681-2a99-4f3f-b224-0937e6967e5b",
-                            ImportantDegree = 2,
-                            Name = "Adminstrator",
-                            NormalizedName = "ADMINSTRATOR"
-                        });
                 });
 
             modelBuilder.Entity("Entities.Model.User", b =>

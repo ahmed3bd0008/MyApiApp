@@ -1,6 +1,9 @@
 using AutoMapper;
 using Entity.Model;
 using Entity.DataTransferObject;
+using Entities.Model;
+using Entities.DataTransferObject;
+
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Mapper
 {
     public class MapProfile:Profile
@@ -15,6 +18,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Mapper
               CreateMap<Employee,AddEmployeeDto>().ReverseMap();
               CreateMap<Company,AddCompanywithEmployeesDto>().ForMember(opt=>opt.AddEmployeeDtos,d=>d.MapFrom(st=>st.Employees)).ReverseMap();
               CreateMap<Company,updateCompanywithEmployeesDto>().ForMember(opt=>opt.updateEmployeeDtos,d=>d.MapFrom(st=>st.Employees)).ReverseMap();
+              CreateMap<User,RegistUserDto>().ReverseMap();
          }      
     }
 }
