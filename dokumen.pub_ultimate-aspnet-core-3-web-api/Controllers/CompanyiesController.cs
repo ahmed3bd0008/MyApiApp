@@ -12,6 +12,7 @@ using dokumen.pub_ultimate_aspnet_core_3_web_api.ModelBinder;
 using dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter;
 using Entity.Paging;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
 {
@@ -31,6 +32,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
                        _logger=logger;
                        _mapper=mapper;
            }
+           [Authorize]
            [HttpGet("GetAllCompanymanualmapping")]
            public IActionResult GetAllCompanyManualmapping()
            {

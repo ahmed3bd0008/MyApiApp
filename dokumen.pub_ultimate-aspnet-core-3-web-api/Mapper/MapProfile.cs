@@ -19,6 +19,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Mapper
               CreateMap<Company,AddCompanywithEmployeesDto>().ForMember(opt=>opt.AddEmployeeDtos,d=>d.MapFrom(st=>st.Employees)).ReverseMap();
               CreateMap<Company,updateCompanywithEmployeesDto>().ForMember(opt=>opt.updateEmployeeDtos,d=>d.MapFrom(st=>st.Employees)).ReverseMap();
               CreateMap<User,RegistUserDto>().ReverseMap();
+              CreateMap<User,LoginUserDto>().ReverseMap();
          }      
     }
 }

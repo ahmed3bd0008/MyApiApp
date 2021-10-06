@@ -22,6 +22,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Extension
                 services.AddScoped(typeof(IComponyRepository),typeof(CompanyRepository));
                 services.AddScoped(typeof(IMangeRepository),typeof(MangeRepository));
                 services.AddScoped(typeof(IShapData<>),typeof(ShapData<>));
+                services.AddScoped(typeof(IAuthenticationManger),typeof(AuthenticationManger));
              }
     }
 }

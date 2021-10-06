@@ -50,7 +50,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
             (
                 Option=>Option.SuppressModelStateInvalidFilter=true
             );
-            services.configurationIdentityService();
+          
             services.AddScoped<ILoggerManger, LoggerManager>();
             services.AddAutoMapper(typeof( Startup));
             services.AddSwaggerGen(c =>
@@ -60,6 +60,10 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
             // add Action Filter Scope Of Cotroller Or Action
            services.AddScoped<ValidationFilterAttribute>();
            services.AddScoped<UpdateCompanyFilterAttribute>();
+
+             //add Authentication
+             services.configurationIdentityService();
+             services.JWTConfiguration(Configuration);
 
         }
 

@@ -15,7 +15,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
                                     Policy.Password.RequireUppercase=false;
                                     Policy.Password.RequireNonAlphanumeric=false;
                                     Policy.Password.RequiredUniqueChars=0;
-                                    Policy.Password.RequireDigit=true;
+                                    Policy.Password.RequireDigit=false;
                                     Policy.User.RequireUniqueEmail=true;     
                         }); 
               builder=new IdentityBuilder(builder.UserType,builder.RoleType,builder.Services);
