@@ -21,7 +21,6 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
         private readonly RoleManager<Role> _roleManager;
         private readonly IMapper _mapper;
         private readonly IAuthenticationManger _authenticationManger;
-
         public AuthorizationController(ILogger<AuthorizationController> logger,
                                             IMangeRepository mangeRepository,
                                             UserManager<User>userManager,
@@ -43,7 +42,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
             var user=_mapper.Map<User>(registUserDto);
             try
              {
-                    using(TransactionScope scope = new TransactionScope())
+                    using(TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
                             var res=await _userManager.CreateAsync(user,registUserDto.Password);
                             if(! res.Succeeded)
@@ -55,8 +54,11 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
                                 return BadRequest(ModelState);
                             }
                             
-                                var xx=_roleManager.RoleExistsAsync(registUserDto.Roles.FirstOrDefault());
-                                await _userManager.AddToRolesAsync(user,registUserDto.Roles);
+                            foreach (var role in registUserDto.Roles)
+                            {
+                               if( await _roleManager.RoleExistsAsync(role))
+                                   await _userManager.AddToRolesAsync(user,registUserDto.Roles);  
+                            }
                                     /* Perform transactional work here */
                                 scope.Complete();
                     }
@@ -77,7 +79,6 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controllers
                     _logger.LogError($"this user {loginUser.UserName} with this password {loginUser.Password}");
                     return Unauthorized();
                 }
-
             return Ok(new {Token=await _authenticationManger.CreateToken()});   
         }
     }

@@ -30,10 +30,10 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter
                             }
                             if(!context.ModelState.IsValid)
                             {
-                                  _logger.LogError($"Object is null In Action{action} Controller {controller}");
+                                _logger.LogError($"Object is null In Action{action} Controller {controller}");
                                 Console.WriteLine($"Object is null In Action{action} Controller {controller}");
                                 context.Result=new UnprocessableEntityObjectResult(context.ModelState);
-                return;
+                                return;
                             }
                                     var resultContext = await next();
                             //after Action
