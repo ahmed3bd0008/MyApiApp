@@ -13,6 +13,7 @@ using dokumen.pub_ultimate_aspnet_core_3_web_api.ActionFilter;
 using Entity.Paging;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
 {
@@ -32,8 +33,9 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
                        _logger=logger;
                        _mapper=mapper;
            }
-           [Authorize]
+          
            [HttpGet("GetAllCompanymanualmapping")]
+            [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
            public IActionResult GetAllCompanyManualmapping()
            {
                        try
@@ -55,7 +57,8 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
                        }
            }
            [HttpGet("GetAllCompanyAutoMapper")]
-           public IActionResult GetAllCompanyAutoMapper()
+           [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]   
+        public IActionResult GetAllCompanyAutoMapper()
            {
                        try
                        {
@@ -70,7 +73,8 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Controller
                        }
            }
             [HttpGet("GetAllCompanyAutoMapperGlobelException")]
-           public IActionResult GetAllCompanyAutoMappeex()
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult GetAllCompanyAutoMappeex()
            {
 
                           var companies= _mangeRepository.componyRepository.FindAll(false).ToArray();

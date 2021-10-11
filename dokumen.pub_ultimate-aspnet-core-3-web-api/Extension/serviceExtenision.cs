@@ -1,5 +1,6 @@
 
 using Contracts.Interface;
+using Entities.Configuration;
 using Entity.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,10 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Extension
                 services.AddScoped(typeof(IMangeRepository),typeof(MangeRepository));
                 services.AddScoped(typeof(IShapData<>),typeof(ShapData<>));
                 services.AddScoped(typeof(IAuthenticationManger),typeof(AuthenticationManger));
+             }
+             public static void ConfigurationJwtConfig(this IServiceCollection services,IConfiguration configuration)
+             {
+                services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
              }
     }
 }

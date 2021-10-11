@@ -11,6 +11,7 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
         {
               var builder= services.AddIdentity<User,Role>(Policy=>
                         {
+                                    Policy.SignIn.RequireConfirmedAccount=true;
                                     Policy.Password.RequiredLength=4;
                                     Policy.Password.RequireUppercase=false;
                                     Policy.Password.RequireNonAlphanumeric=false;

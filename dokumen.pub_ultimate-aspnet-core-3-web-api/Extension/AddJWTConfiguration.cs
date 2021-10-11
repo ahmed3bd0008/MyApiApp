@@ -14,18 +14,24 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api.Extension
             services.AddAuthentication(opt => 
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme=JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(Options=>{
-                Options.TokenValidationParameters=new TokenValidationParameters()
+                Options.SaveToken = true;
+                var key = Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"].ToString());
+                var secret = new SymmetricSecurityKey(key);
+                Options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer=true,
-                    ValidateAudience=true,
-                    ValidateLifetime=true,
-                    ValidateIssuerSigningKey=true,
-                    ValidIssuer=JwtSetting.GetSection("validIssuer").Value,
-                    ValidAudience=JwtSetting.GetSection("validAudience").Value,
-                    IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSetting.GetSection("Key").Value))
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = JwtSetting.GetSection("validIssuer").Value,
+                    ValidAudience = JwtSetting.GetSection("validAudience").Value,
+                    IssuerSigningKey = secret,
+                    RequireExpirationTime=false
                 };
+
             });
         }
 

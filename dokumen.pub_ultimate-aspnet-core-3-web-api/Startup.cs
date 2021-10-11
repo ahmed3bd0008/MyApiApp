@@ -66,6 +66,8 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
             services.AddAuthentication();
             services.configurationIdentityService();
             services.JWTConfiguration(Configuration);
+            // add jwt configuration for appsetting
+            services.ConfigurationJwtConfig(Configuration);
             services.AddSwaggerGen(s =>
             {
                 s.SwaggerDoc("v1", new OpenApiInfo { Title = "Code Maze API", Version = "v1" });
@@ -109,10 +111,9 @@ namespace dokumen.pub_ultimate_aspnet_core_3_web_api
             {
                 ForwardedHeaders = ForwardedHeaders.All
             });
-            app.UseRouting();
             app.UseAuthentication();
+            app.UseRouting();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
